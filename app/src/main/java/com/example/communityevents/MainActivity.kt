@@ -58,10 +58,10 @@ import com.example.communityevents.ui.theme.CommunityEventsTheme
 
 private val PageBackground = Color(0xFFF1F3ED)
 private val CardBackground = Color(0xFFFFFCF7)
-private val DarkGreen = Color(0xFF19443F)
+private val SignInDarkGreen = Color(0xFF19443F)
 private val MutedGreen = Color(0xFF758780)
 private val BorderGreen = Color(0xFFCAD8D1)
-private val Orange = Color(0xFFDE5B38)
+private val SignInOrange = Color(0xFFDE5B38)
 private val LabelGreen = Color(0xFF31544E)
 private val HintGreen = Color(0xFF98A6A0)
 
@@ -180,7 +180,7 @@ fun SignInScreen(
                     modifier = Modifier
                         .size(54.dp)
                         .background(
-                            DarkGreen,
+                            SignInDarkGreen,
                             RoundedCornerShape(17.dp)
                         ),
                     contentAlignment = Alignment.Center
@@ -201,7 +201,7 @@ fun SignInScreen(
                         fontSize = 25.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = FontFamily.Serif,
-                        color = DarkGreen,
+                        color = SignInDarkGreen,
                         lineHeight = 28.sp
                     )
 
@@ -219,7 +219,7 @@ fun SignInScreen(
 
             Text(
                 text = "WELCOME BACK",
-                color = Orange,
+                color = SignInOrange,
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
                 letterSpacing = 1.6.sp
@@ -229,7 +229,7 @@ fun SignInScreen(
 
             Text(
                 text = "Sign in to continue",
-                color = DarkGreen,
+                color = SignInDarkGreen,
                 fontSize = 39.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = FontFamily.Serif,
@@ -266,7 +266,7 @@ fun SignInScreen(
 
                     Text(
                         text = "Continue with Google",
-                        color = DarkGreen,
+                        color = SignInDarkGreen,
                         fontSize = 17.sp,
                         fontWeight = FontWeight.SemiBold
                     )
@@ -353,7 +353,7 @@ fun SignInScreen(
 
                 Text(
                     text = "Forgot password?",
-                    color = Orange,
+                    color = SignInOrange,
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.clickable {
@@ -425,7 +425,7 @@ fun SignInScreen(
                     .height(65.dp),
                 shape = RoundedCornerShape(17.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Orange,
+                    containerColor = SignInOrange,
                     contentColor = Color.White
                 ),
                 elevation = ButtonDefaults.buttonElevation(
@@ -457,7 +457,7 @@ fun SignInScreen(
 
                 Text(
                     text = "Create an account",
-                    color = Orange,
+                    color = SignInOrange,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -469,11 +469,11 @@ fun SignInScreen(
 @Composable
 private fun inputFieldColors() =
     OutlinedTextFieldDefaults.colors(
-        focusedTextColor = DarkGreen,
-        unfocusedTextColor = DarkGreen,
+        focusedTextColor = SignInDarkGreen,
+        unfocusedTextColor = SignInDarkGreen,
         focusedBorderColor = BorderGreen,
         unfocusedBorderColor = BorderGreen,
-        cursorColor = Orange,
+        cursorColor = SignInOrange,
         focusedContainerColor = Color.White,
         unfocusedContainerColor = Color.White,
         focusedLeadingIconColor = MutedGreen,
