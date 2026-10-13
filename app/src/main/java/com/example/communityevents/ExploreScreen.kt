@@ -63,8 +63,8 @@ import androidx.compose.ui.unit.sp
 // We save every colour once here, so we never have to remember codes.
 // 0xFF at the start just means "fully visible (not see-through)".
 // ---------------------------------------------------------------------
-val DarkGreen = Color(0xFF1C3D36)   // main headings, "All" chip
-val Orange    = Color(0xFFD9623B)   // "near you?", add button, badge
+val ExploreDarkGreen = Color(0xFF1C3D36)   // main headings, "All" chip
+val ExploreOrange    = Color(0xFFD9623B)   // "near you?", add button, badge
 val Rust      = Color(0xFFB0532F)   // small labels like "OUTDOORS"
 val Cream     = Color(0xFFFCFBF6)   // page background
 val GreyText  = Color(0xFF6B7672)   // softer text (dates, places)
@@ -182,7 +182,7 @@ fun TopHeader() {
             modifier = Modifier
                 .size(48.dp)
                 .clip(RoundedCornerShape(14.dp))
-                .background(DarkGreen),
+                .background(ExploreDarkGreen),
             contentAlignment = Alignment.Center
         ) {
             Icon(Icons.Outlined.Groups, contentDescription = null, tint = Color.White)
@@ -202,9 +202,9 @@ fun TopHeader() {
                 color = GreyText
             )
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("Riverside", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = DarkGreen)
+                Text("Riverside", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = ExploreDarkGreen)
                 Spacer(Modifier.width(4.dp))
-                Icon(Icons.Outlined.Place, contentDescription = null, tint = Orange, modifier = Modifier.size(18.dp))
+                Icon(Icons.Outlined.Place, contentDescription = null, tint = ExploreOrange, modifier = Modifier.size(18.dp))
             }
         }
 
@@ -251,14 +251,14 @@ fun HeadlineSection() {
             fontWeight = FontWeight.Bold,
             fontSize = 34.sp,
             lineHeight = 38.sp,
-            color = DarkGreen
+            color = ExploreDarkGreen
         )
         Text(
             text = "near you?",
             fontFamily = FontFamily.Serif,
             fontWeight = FontWeight.Bold,
             fontSize = 34.sp,
-            color = Orange
+            color = ExploreOrange
         )
     }
 }
@@ -278,7 +278,7 @@ fun SearchBox(text: String, onTextChange: (String) -> Unit) {
         singleLine = true,
         shape = RoundedCornerShape(20.dp),
         colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = DarkGreen,
+            focusedBorderColor = ExploreDarkGreen,
             unfocusedBorderColor = BorderGrey,
             focusedContainerColor = Color.White,
             unfocusedContainerColor = Color.White
@@ -314,8 +314,8 @@ fun CategoryChips(selected: String, onSelect: (String) -> Unit) {
                 color = if (isSelected) Color.White else GreyText,
                 modifier = Modifier
                     .clip(RoundedCornerShape(50))     // 50 = fully round ends
-                    .background(if (isSelected) DarkGreen else Color.White)
-                    .border(1.dp, if (isSelected) DarkGreen else BorderGrey, RoundedCornerShape(50))
+                    .background(if (isSelected) ExploreDarkGreen else Color.White)
+                    .border(1.dp, if (isSelected) ExploreDarkGreen else BorderGrey, RoundedCornerShape(50))
                     .clickable { onSelect(category) } // tell the main screen which chip was tapped
                     .padding(horizontal = 20.dp, vertical = 12.dp)
             )
@@ -344,7 +344,7 @@ fun SectionTitle(smallLabel: String, bigTitle: String, rightSide: @Composable ()
                 fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.Bold,
                 fontSize = 28.sp,
-                color = DarkGreen
+                color = ExploreDarkGreen
             )
         }
         rightSide()
@@ -405,7 +405,7 @@ fun FeaturedCard(event: Event, dateText: String) {
         ) {
             Text(
                 text = "FREE EVENT",
-                color = DarkGreen,
+                color = ExploreDarkGreen,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Bold,
                 letterSpacing = 1.sp,
@@ -470,7 +470,7 @@ fun EventCard(event: Event, isSaved: Boolean, onHeartClick: () -> Unit) {
                     .padding(horizontal = 10.dp, vertical = 4.dp)
             ) {
                 Text(event.month, color = Rust, fontSize = 11.sp, fontWeight = FontWeight.Bold)
-                Text(event.day, color = DarkGreen, fontSize = 20.sp, fontWeight = FontWeight.Bold, fontFamily = FontFamily.Serif)
+                Text(event.day, color = ExploreDarkGreen, fontSize = 20.sp, fontWeight = FontWeight.Bold, fontFamily = FontFamily.Serif)
             }
         }
 
@@ -491,7 +491,7 @@ fun EventCard(event: Event, isSaved: Boolean, onHeartClick: () -> Unit) {
                 fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp,
-                color = DarkGreen
+                color = ExploreDarkGreen
             )
             Spacer(Modifier.height(6.dp))
             InfoRow(icon = Icons.Outlined.Schedule, text = event.time)
@@ -546,15 +546,15 @@ fun BottomBar(savedCount: Int) {
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Explore (orange = the page we're on)
-            NavItem(icon = Icons.Outlined.Home, label = "Explore", color = Orange)
+            // Explore (ExploreOrange = the page we're on)
+            NavItem(icon = Icons.Outlined.Home, label = "Explore", color = ExploreOrange)
 
             // Saved, with a little number bubble showing how many hearts
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 BadgedBox(
                     badge = {
                         if (savedCount > 0) {
-                            Badge(containerColor = Orange, contentColor = Color.White) {
+                            Badge(containerColor = ExploreOrange, contentColor = Color.White) {
                                 Text("$savedCount")
                             }
                         }
@@ -565,18 +565,18 @@ fun BottomBar(savedCount: Int) {
                 Text("Saved", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = GreyText)
             }
 
-            // Big orange "+" button
+            // Big ExploreOrange "+" button
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Box(
                     modifier = Modifier
                         .size(52.dp)
                         .clip(CircleShape)
-                        .background(Orange),
+                        .background(ExploreOrange),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(Icons.Filled.Add, contentDescription = "Add event", tint = Color.White, modifier = Modifier.size(28.dp))
                 }
-                Text("Add event", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = DarkGreen)
+                Text("Add event", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = ExploreDarkGreen)
             }
 
             // Profile
