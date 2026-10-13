@@ -10,6 +10,7 @@ android {
     }
 
     defaultConfig {
+        buildConfigField("String", "TICKETMASTER_API_KEY", "\"${project.findProperty("TICKETMASTER_API_KEY") ?: ""}\"")
         applicationId = "com.example.communityevents"
         minSdk = 24
         targetSdk = 37
@@ -32,6 +33,8 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
+
     }
 }
 
