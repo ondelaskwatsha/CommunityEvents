@@ -43,6 +43,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -72,62 +73,86 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+
         setContent {
             CommunityEventsTheme {
-                SignInScreen(
-                    onSignIn = { email, password ->
-                        val identifier = email.trim()
-                        val isEmail = identifier.contains("@") && identifier.substringAfter("@").contains(".")
+                var currentScreen by rememberSaveable {
+                    mutableStateOf("login")
+                }
 
-                        val isPhone = identifier.count { it.isDigit() } >= 8 && identifier.all {
-                            it.isDigit() || it == '+' || it == ' ' || it == '-' || it == '(' || it == ')'
-                        }
+                when (currentScreen) {
+                    "login" -> {
+                        SignInScreen(
+                            onSignIn = { email, password ->
+                                val identifier = email.trim()
 
-                        when {
-                            identifier.isBlank() || password.isBlank() -> {
+                                val isEmail = identifier.contains("@") &&
+                                        identifier.substringAfter("@").contains(".")
+
+                                val isPhone =
+                                    identifier.count { it.isDigit() } >= 8 &&
+                                            identifier.all {
+                                                it.isDigit() || it == '+' ||
+                                                        it == ' ' || it == '-' ||
+                                                        it == '(' || it == ')'
+                                            }
+
+                                when {
+                                    identifier.isBlank() || password.isBlank() -> {
+                                        Toast.makeText(
+                                            this@MainActivity,
+                                            "Please enter your email or phone number and password.",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+
+                                    !isEmail && !isPhone -> {
+                                        Toast.makeText(
+                                            this@MainActivity,
+                                            "Please enter a valid email address or phone number.",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+
+                                    else -> {
+                                        // Front-end navigation for now
+                                        currentScreen = "explore"
+                                    }
+                                }
+                            },
+                            onGoogleSignIn = {
                                 Toast.makeText(
-                                    this, "Please enter your email or phone number and password.",
+                                    this@MainActivity,
+                                    "Google sign-in will be connected later.",
                                     Toast.LENGTH_SHORT
                                 ).show()
-                            }
-
-                            !isEmail && !isPhone -> {
+                            },
+                            onForgotPassword = {
                                 Toast.makeText(
-                                    this, "Please enter a valid email address or phone number.",
+                                    this@MainActivity,
+                                    "Password recovery will be added later.",
                                     Toast.LENGTH_SHORT
                                 ).show()
+                            },
+                            onCreateAccount = {
+                                currentScreen = "register"
                             }
-
-                            else -> {
-                                Toast.makeText(
-                                    this, "Signing in...",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        }
-                    },
-                    onGoogleSignIn = {
-                        Toast.makeText(
-                            this,
-                            "Google sign-in will be connected later.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    },
-                    onForgotPassword = {
-                        Toast.makeText(
-                            this,
-                            "Password recovery will be added later.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    },
-                    onCreateAccount = {
-                        Toast.makeText(
-                            this,
-                            "Registration screen will be added next.",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        )
                     }
-                )
+
+                    "register" -> {
+                        RegisterScreen(
+                            onSignInClick = {
+                                currentScreen = "login"
+                            }
+                        )
+                    }
+
+                    "explore" -> {
+                        ExploreScreen()
+                    }
+                }
             }
         }
     }

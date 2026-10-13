@@ -66,7 +66,7 @@ import androidx.compose.ui.unit.sp
 val ExploreDarkGreen = Color(0xFF1C3D36)   // main headings, "All" chip
 val ExploreOrange    = Color(0xFFD9623B)   // "near you?", add button, badge
 val Rust      = Color(0xFFB0532F)   // small labels like "OUTDOORS"
-val Cream     = Color(0xFFFCFBF6)   // page background
+val ExploreCream     = Color(0xFFFCFBF6)   // page background
 val GreyText  = Color(0xFF6B7672)   // softer text (dates, places)
 val BorderGrey = Color(0xFFE3E3DE)  // thin lines around boxes
 val SunYellow = Color(0xFFF2C94C)   // "FREE EVENT" tag
@@ -102,7 +102,7 @@ fun ExploreScreen() {
     // Scaffold = a ready-made page layout. We give it a bottom bar,
     // and it makes sure our content doesn't hide behind that bar.
     Scaffold(
-        containerColor = Cream,
+        containerColor = ExploreCream,
         bottomBar = { BottomBar(savedCount = savedIds.size) }
     ) { innerPadding ->
 
@@ -536,7 +536,7 @@ fun InfoRow(icon: ImageVector, text: String) {
 // ---------------------------------------------------------------------
 @Composable
 fun BottomBar(savedCount: Int) {
-    Column(modifier = Modifier.background(Cream)) {
+    Column(modifier = Modifier.background(ExploreCream)) {
         HorizontalDivider(color = BorderGrey)
         Row(
             modifier = Modifier
