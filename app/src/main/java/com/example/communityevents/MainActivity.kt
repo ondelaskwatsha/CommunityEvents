@@ -1,4 +1,3 @@
-
 package com.example.communityevents
 
 import android.os.Bundle
@@ -21,10 +20,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
@@ -35,15 +33,14 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -54,9 +51,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.communityevents.navigation.CommunityEventsApp
 import com.example.communityevents.ui.theme.CommunityEventsTheme
 
 private val PageBackground = Color(0xFFF1F3ED)
@@ -74,60 +71,66 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             CommunityEventsTheme {
-                SignInScreen(
-                    onSignIn = { email, password ->
-                        val identifier = email.trim()
-                        val isEmail = identifier.contains("@") && identifier.substringAfter("@").contains(".")
+                var signedIn by remember { mutableStateOf(false) }
 
-                        val isPhone = identifier.count { it.isDigit() } >= 8 && identifier.all {
-                            it.isDigit() || it == '+' || it == ' ' || it == '-' || it == '(' || it == ')'
+                if (signedIn) {
+                    CommunityEventsApp()
+                } else {
+                    SignInScreen(
+                        onSignIn = { email, password ->
+                            val identifier = email.trim()
+                            val isEmail = identifier.contains("@") &&
+                                    identifier.substringAfter("@").contains(".")
+
+                            val isPhone = identifier.count { it.isDigit() } >= 8 && identifier.all {
+                                it.isDigit() || it == '+' || it == ' ' || it == '-' || it == '(' || it == ')'
+                            }
+
+                            when {
+                                identifier.isBlank() || password.isBlank() -> {
+                                    Toast.makeText(
+                                        this,
+                                        "Please enter your email or phone number and password.",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+
+                                !isEmail && !isPhone -> {
+                                    Toast.makeText(
+                                        this,
+                                        "Please enter a valid email address or phone number.",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+
+                                else -> {
+                                    signedIn = true
+                                }
+                            }
+                        },
+                        onGoogleSignIn = {
+                            Toast.makeText(
+                                this,
+                                "Google sign-in will be connected later.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        },
+                        onForgotPassword = {
+                            Toast.makeText(
+                                this,
+                                "Password recovery will be added later.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        },
+                        onCreateAccount = {
+                            Toast.makeText(
+                                this,
+                                "Registration screen will be added next.",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
-
-                        when {
-                            identifier.isBlank() || password.isBlank() -> {
-                                Toast.makeText(
-                                    this, "Please enter your email or phone number and password.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-
-                            !isEmail && !isPhone -> {
-                                Toast.makeText(
-                                    this, "Please enter a valid email address or phone number.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-
-                            else -> {
-                                Toast.makeText(
-                                    this, "Signing in...",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        }
-                    },
-                    onGoogleSignIn = {
-                        Toast.makeText(
-                            this,
-                            "Google sign-in will be connected later.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    },
-                    onForgotPassword = {
-                        Toast.makeText(
-                            this,
-                            "Password recovery will be added later.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    },
-                    onCreateAccount = {
-                        Toast.makeText(
-                            this,
-                            "Registration screen will be added next.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                )
+                    )
+                }
             }
         }
     }
@@ -143,7 +146,6 @@ fun SignInScreen(
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -171,7 +173,6 @@ fun SignInScreen(
                     bottom = 24.dp
                 )
         ) {
-            // Brand logo and app name
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -216,7 +217,6 @@ fun SignInScreen(
 
             Spacer(modifier = Modifier.height(33.dp))
 
-            // Welcome heading
             Text(
                 text = "WELCOME BACK",
                 color = Orange,
@@ -240,14 +240,13 @@ fun SignInScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "Discover what’s happening around you.",
+                text = "Discover what's happening around you.",
                 color = MutedGreen,
                 fontSize = 16.sp
             )
 
             Spacer(modifier = Modifier.height(29.dp))
 
-            // Google sign-in button (visual frontend only)
             Surface(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -276,7 +275,6 @@ fun SignInScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Divider with text
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
@@ -300,7 +298,6 @@ fun SignInScreen(
 
             Spacer(modifier = Modifier.height(29.dp))
 
-            // Email label
             Text(
                 text = "Email or phone number",
                 color = LabelGreen,
@@ -341,7 +338,6 @@ fun SignInScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // Password label and forgot password
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -422,7 +418,6 @@ fun SignInScreen(
 
             Spacer(modifier = Modifier.height(19.dp))
 
-            // Main sign-in button
             Button(
                 onClick = { onSignIn(email.trim(), password) },
                 modifier = Modifier
@@ -447,7 +442,6 @@ fun SignInScreen(
 
             Spacer(modifier = Modifier.height(25.dp))
 
-            // Registration link
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -488,7 +482,6 @@ private fun inputFieldColors() =
 
 @Composable
 private fun GoogleLetter() {
-    // A simple Google-style G placeholder for the frontend.
     Text(
         text = "G",
         fontSize = 25.sp,
