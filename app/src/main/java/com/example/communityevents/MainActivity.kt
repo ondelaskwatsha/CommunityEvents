@@ -146,7 +146,6 @@ fun SignInScreen(
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
-
     Box(
         modifier = Modifier
             .fillMaxSize()

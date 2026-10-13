@@ -8,8 +8,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun ExploreScreen() = Placeholder("Explore")
-@Composable
 fun SavedScreen()   = Placeholder("Saved")
 @Composable
 fun ProfileScreen() = Placeholder("Profile")
