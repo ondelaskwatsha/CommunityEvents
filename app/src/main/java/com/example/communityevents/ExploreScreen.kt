@@ -535,7 +535,12 @@ fun InfoRow(icon: ImageVector, text: String) {
 // 10. BOTTOM BAR — Explore / Saved / Add event / Profile
 // ---------------------------------------------------------------------
 @Composable
-fun BottomBar(savedCount: Int) {
+fun BottomBar(
+    savedCount: Int,
+    selected: String = "Explore",
+    onExploreClick: () -> Unit = {},
+    onProfileClick: () -> Unit = {}
+) {
     Column(modifier = Modifier.background(Cream)) {
         HorizontalDivider(color = BorderGrey)
         Row(
@@ -546,8 +551,13 @@ fun BottomBar(savedCount: Int) {
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Explore (orange = the page we're on)
-            NavItem(icon = Icons.Outlined.Home, label = "Explore", color = Orange)
+            // Explore (orange = the page we're on if selected)
+            NavItem(
+                icon = Icons.Outlined.Home,
+                label = "Explore",
+                color = if (selected == "Explore") Orange else GreyText,
+                onClick = onExploreClick
+            )
 
             // Saved, with a little number bubble showing how many hearts
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -580,15 +590,28 @@ fun BottomBar(savedCount: Int) {
             }
 
             // Profile
-            NavItem(icon = Icons.Outlined.PersonOutline, label = "Profile", color = GreyText)
+            NavItem(
+                icon = Icons.Outlined.PersonOutline,
+                label = "Profile",
+                color = if (selected == "Profile") Orange else GreyText,
+                onClick = onProfileClick
+            )
         }
     }
 }
 
 // One simple icon + label for the bottom bar
 @Composable
-fun NavItem(icon: ImageVector, label: String, color: Color) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+fun NavItem(
+    icon: ImageVector,
+    label: String,
+    color: Color,
+    onClick: () -> Unit = {}
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.clickable { onClick() }
+    ) {
         Icon(icon, contentDescription = label, tint = color)
         Text(label, fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = color)
     }
