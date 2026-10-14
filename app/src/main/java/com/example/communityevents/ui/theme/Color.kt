@@ -2,10 +2,11 @@ package com.example.communityevents.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
-
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+val ForestGreen = Color(0xFF1F3D2F)   // top app bar / primary buttons
+val Terracotta  = Color(0xFFD9663D)   // accents, submit button, active tab
+val Cream       = Color(0xFFF5F0E8)   // background
+val OffWhite    = Color(0xFFFAF8F4)   // card background
+val WarmGray    = Color(0xFF6B6B6B)   // secondary text
+val DarkText    = Color(0xFF1A1A1A)
+val RequiredRed = Color(0xFFB23A2E)
+val InputBorder = Color(0xFFE0DAD0)

@@ -1,4 +1,3 @@
-
 package com.example.communityevents
 
 import android.os.Bundle
@@ -21,10 +20,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
@@ -35,16 +33,15 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -55,25 +52,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.communityevents.navigation.CommunityEventsApp
 import com.example.communityevents.ui.theme.CommunityEventsTheme
 
 private val PageBackground = Color(0xFFF1F3ED)
 private val CardBackground = Color(0xFFFFFCF7)
-private val DarkGreen = Color(0xFF19443F)
+private val SignInDarkGreen = Color(0xFF19443F)
 private val MutedGreen = Color(0xFF758780)
 private val BorderGreen = Color(0xFFCAD8D1)
-private val Orange = Color(0xFFDE5B38)
+private val SignInOrange = Color(0xFFDE5B38)
 private val LabelGreen = Color(0xFF31544E)
 private val HintGreen = Color(0xFF98A6A0)
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
 
         setContent {
             CommunityEventsTheme {
@@ -116,7 +111,6 @@ class MainActivity : ComponentActivity() {
                                     }
 
                                     else -> {
-                                        // Front-end navigation for now
                                         currentScreen = "explore"
                                     }
                                 }
@@ -150,7 +144,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     "explore" -> {
-                        ExploreScreen()
+                        CommunityEventsApp()
                     }
                 }
             }
@@ -168,7 +162,6 @@ fun SignInScreen(
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -196,7 +189,6 @@ fun SignInScreen(
                     bottom = 24.dp
                 )
         ) {
-            // Brand logo and app name
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -204,7 +196,7 @@ fun SignInScreen(
                     modifier = Modifier
                         .size(54.dp)
                         .background(
-                            DarkGreen,
+                            SignInDarkGreen,
                             RoundedCornerShape(17.dp)
                         ),
                     contentAlignment = Alignment.Center
@@ -225,7 +217,7 @@ fun SignInScreen(
                         fontSize = 25.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = FontFamily.Serif,
-                        color = DarkGreen,
+                        color = SignInDarkGreen,
                         lineHeight = 28.sp
                     )
 
@@ -241,10 +233,9 @@ fun SignInScreen(
 
             Spacer(modifier = Modifier.height(33.dp))
 
-            // Welcome heading
             Text(
                 text = "WELCOME BACK",
-                color = Orange,
+                color = SignInOrange,
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
                 letterSpacing = 1.6.sp
@@ -254,7 +245,7 @@ fun SignInScreen(
 
             Text(
                 text = "Sign in to continue",
-                color = DarkGreen,
+                color = SignInDarkGreen,
                 fontSize = 39.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = FontFamily.Serif,
@@ -265,14 +256,13 @@ fun SignInScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "Discover what’s happening around you.",
+                text = "Discover what's happening around you.",
                 color = MutedGreen,
                 fontSize = 16.sp
             )
 
             Spacer(modifier = Modifier.height(29.dp))
 
-            // Google sign-in button (visual frontend only)
             Surface(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -292,7 +282,7 @@ fun SignInScreen(
 
                     Text(
                         text = "Continue with Google",
-                        color = DarkGreen,
+                        color = SignInDarkGreen,
                         fontSize = 17.sp,
                         fontWeight = FontWeight.SemiBold
                     )
@@ -301,7 +291,6 @@ fun SignInScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Divider with text
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
@@ -325,7 +314,6 @@ fun SignInScreen(
 
             Spacer(modifier = Modifier.height(29.dp))
 
-            // Email label
             Text(
                 text = "Email or phone number",
                 color = LabelGreen,
@@ -366,7 +354,6 @@ fun SignInScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // Password label and forgot password
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -382,7 +369,7 @@ fun SignInScreen(
 
                 Text(
                     text = "Forgot password?",
-                    color = Orange,
+                    color = SignInOrange,
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.clickable {
@@ -447,7 +434,6 @@ fun SignInScreen(
 
             Spacer(modifier = Modifier.height(19.dp))
 
-            // Main sign-in button
             Button(
                 onClick = { onSignIn(email.trim(), password) },
                 modifier = Modifier
@@ -455,7 +441,7 @@ fun SignInScreen(
                     .height(65.dp),
                 shape = RoundedCornerShape(17.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Orange,
+                    containerColor = SignInOrange,
                     contentColor = Color.White
                 ),
                 elevation = ButtonDefaults.buttonElevation(
@@ -472,7 +458,6 @@ fun SignInScreen(
 
             Spacer(modifier = Modifier.height(25.dp))
 
-            // Registration link
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -488,7 +473,7 @@ fun SignInScreen(
 
                 Text(
                     text = "Create an account",
-                    color = Orange,
+                    color = SignInOrange,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -500,11 +485,11 @@ fun SignInScreen(
 @Composable
 private fun inputFieldColors() =
     OutlinedTextFieldDefaults.colors(
-        focusedTextColor = DarkGreen,
-        unfocusedTextColor = DarkGreen,
+        focusedTextColor = SignInDarkGreen,
+        unfocusedTextColor = SignInDarkGreen,
         focusedBorderColor = BorderGreen,
         unfocusedBorderColor = BorderGreen,
-        cursorColor = Orange,
+        cursorColor = SignInOrange,
         focusedContainerColor = Color.White,
         unfocusedContainerColor = Color.White,
         focusedLeadingIconColor = MutedGreen,
@@ -513,7 +498,6 @@ private fun inputFieldColors() =
 
 @Composable
 private fun GoogleLetter() {
-    // A simple Google-style G placeholder for the frontend.
     Text(
         text = "G",
         fontSize = 25.sp,

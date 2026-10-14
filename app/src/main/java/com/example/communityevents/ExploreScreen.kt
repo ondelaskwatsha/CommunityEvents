@@ -535,38 +535,66 @@ fun InfoRow(icon: ImageVector, text: String) {
 // 10. BOTTOM BAR — Explore / Saved / Add event / Profile
 // ---------------------------------------------------------------------
 @Composable
-fun BottomBar(savedCount: Int) {
+fun BottomBar(
+    savedCount: Int,
+    selected: String = "Explore",
+    onExploreClick: () -> Unit = {},
+    onProfileClick: () -> Unit = {}
+) {
     Column(modifier = Modifier.background(ExploreCream)) {
         HorizontalDivider(color = BorderGrey)
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .navigationBarsPadding()        // keeps it above the phone's own buttons
+                .navigationBarsPadding()
                 .padding(vertical = 10.dp),
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Explore (ExploreOrange = the page we're on)
-            NavItem(icon = Icons.Outlined.Home, label = "Explore", color = ExploreOrange)
+            // Explore
+            NavItem(
+                icon = Icons.Outlined.Home,
+                label = "Explore",
+                color = if (selected == "Explore") ExploreOrange else GreyText,
+                onClick = onExploreClick
+            )
 
-            // Saved, with a little number bubble showing how many hearts
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            // Saved
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 BadgedBox(
                     badge = {
                         if (savedCount > 0) {
-                            Badge(containerColor = ExploreOrange, contentColor = Color.White) {
+                            Badge(
+                                containerColor = ExploreOrange,
+                                contentColor = Color.White
+                            ) {
                                 Text("$savedCount")
                             }
                         }
                     }
                 ) {
-                    Icon(Icons.Outlined.FavoriteBorder, contentDescription = "Saved", tint = GreyText)
+                    Icon(
+                        Icons.Outlined.FavoriteBorder,
+                        contentDescription = "Saved",
+                        tint = GreyText
+                    )
                 }
-                Text("Saved", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = GreyText)
+
+                Text(
+                    "Saved",
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = GreyText
+                )
             }
 
-            // Big ExploreOrange "+" button
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            // Add event
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Box(
                     modifier = Modifier
                         .size(52.dp)
@@ -574,22 +602,55 @@ fun BottomBar(savedCount: Int) {
                         .background(ExploreOrange),
                     contentAlignment = Alignment.Center
                 ) {
-                    Icon(Icons.Filled.Add, contentDescription = "Add event", tint = Color.White, modifier = Modifier.size(28.dp))
+                    Icon(
+                        Icons.Filled.Add,
+                        contentDescription = "Add event",
+                        tint = Color.White,
+                        modifier = Modifier.size(28.dp)
+                    )
                 }
-                Text("Add event", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = ExploreDarkGreen)
+
+                Text(
+                    "Add event",
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = ExploreDarkGreen
+                )
             }
 
             // Profile
-            NavItem(icon = Icons.Outlined.PersonOutline, label = "Profile", color = GreyText)
+            NavItem(
+                icon = Icons.Outlined.PersonOutline,
+                label = "Profile",
+                color = if (selected == "Profile") ExploreOrange else GreyText,
+                onClick = onProfileClick
+            )
         }
     }
 }
 
-// One simple icon + label for the bottom bar
 @Composable
-fun NavItem(icon: ImageVector, label: String, color: Color) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Icon(icon, contentDescription = label, tint = color)
-        Text(label, fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = color)
+fun NavItem(
+    icon: ImageVector,
+    label: String,
+    color: Color,
+    onClick: () -> Unit = {}
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.clickable { onClick() }
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = label,
+            tint = color
+        )
+
+        Text(
+            text = label,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.SemiBold,
+            color = color
+        )
     }
 }
