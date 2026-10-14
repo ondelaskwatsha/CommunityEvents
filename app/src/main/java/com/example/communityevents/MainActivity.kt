@@ -39,6 +39,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -71,65 +72,80 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             CommunityEventsTheme {
-                var signedIn by remember { mutableStateOf(false) }
+                var currentScreen by rememberSaveable {
+                    mutableStateOf("login")
+                }
 
-                if (signedIn) {
-                    CommunityEventsApp()
-                } else {
-                    SignInScreen(
-                        onSignIn = { email, password ->
-                            val identifier = email.trim()
-                            val isEmail = identifier.contains("@") &&
-                                    identifier.substringAfter("@").contains(".")
+                when (currentScreen) {
+                    "login" -> {
+                        SignInScreen(
+                            onSignIn = { email, password ->
+                                val identifier = email.trim()
 
-                            val isPhone = identifier.count { it.isDigit() } >= 8 && identifier.all {
-                                it.isDigit() || it == '+' || it == ' ' || it == '-' || it == '(' || it == ')'
+                                val isEmail = identifier.contains("@") &&
+                                        identifier.substringAfter("@").contains(".")
+
+                                val isPhone =
+                                    identifier.count { it.isDigit() } >= 8 &&
+                                            identifier.all {
+                                                it.isDigit() || it == '+' ||
+                                                        it == ' ' || it == '-' ||
+                                                        it == '(' || it == ')'
+                                            }
+
+                                when {
+                                    identifier.isBlank() || password.isBlank() -> {
+                                        Toast.makeText(
+                                            this@MainActivity,
+                                            "Please enter your email or phone number and password.",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+
+                                    !isEmail && !isPhone -> {
+                                        Toast.makeText(
+                                            this@MainActivity,
+                                            "Please enter a valid email address or phone number.",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+
+                                    else -> {
+                                        currentScreen = "explore"
+                                    }
+                                }
+                            },
+                            onGoogleSignIn = {
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    "Google sign-in will be connected later.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            },
+                            onForgotPassword = {
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    "Password recovery will be added later.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            },
+                            onCreateAccount = {
+                                currentScreen = "register"
                             }
+                        )
+                    }
 
-                            when {
-                                identifier.isBlank() || password.isBlank() -> {
-                                    Toast.makeText(
-                                        this,
-                                        "Please enter your email or phone number and password.",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-
-                                !isEmail && !isPhone -> {
-                                    Toast.makeText(
-                                        this,
-                                        "Please enter a valid email address or phone number.",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-
-                                else -> {
-                                    signedIn = true
-                                }
+                    "register" -> {
+                        RegisterScreen(
+                            onSignInClick = {
+                                currentScreen = "login"
                             }
-                        },
-                        onGoogleSignIn = {
-                            Toast.makeText(
-                                this,
-                                "Google sign-in will be connected later.",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        },
-                        onForgotPassword = {
-                            Toast.makeText(
-                                this,
-                                "Password recovery will be added later.",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        },
-                        onCreateAccount = {
-                            Toast.makeText(
-                                this,
-                                "Registration screen will be added next.",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    )
+                        )
+                    }
+
+                    "explore" -> {
+                        CommunityEventsApp()
+                    }
                 }
             }
         }

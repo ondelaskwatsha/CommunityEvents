@@ -61,6 +61,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.communityevents.ui.theme.Cream as ThemeCream
+import com.example.communityevents.ui.theme.ForestGreen
+import com.example.communityevents.ui.theme.Terracotta
+
+
 
 private val TileBackground = Color(0xFFEFF4F1)
 private val BeigeCard = Color(0xFFF5EEE2)
@@ -132,7 +137,7 @@ fun ProfileScreen(
     }
 
     Scaffold(
-        containerColor = Cream,
+        containerColor = ThemeCream,
         bottomBar = {
             BottomBar(
                 savedCount = savedCount,
@@ -161,7 +166,7 @@ fun ProfileScreen(
                 fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.Bold,
                 fontSize = 40.sp,
-                color = DarkGreen
+                color = ForestGreen
             )
 
             Spacer(Modifier.height(20.dp))
@@ -209,7 +214,7 @@ fun ProfileScreen(
                         fontFamily = FontFamily.Serif,
                         fontWeight = FontWeight.Bold,
                         fontSize = 24.sp,
-                        color = if (profile.name.isBlank()) GreyText else DarkGreen
+                        color = if (profile.name.isBlank()) GreyText else ForestGreen
                     )
                     Spacer(Modifier.height(4.dp))
                     Text(
@@ -236,7 +241,7 @@ fun ProfileScreen(
                     leading = {
                         Text(
                             text = "Aa",
-                            color = DarkGreen,
+                            color = ForestGreen,
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold
                         )
@@ -247,8 +252,8 @@ fun ProfileScreen(
                             onCheckedChange = { onProfileChange(profile.copy(largeText = it)) },
                             colors = SwitchDefaults.colors(
                                 checkedThumbColor = Color.White,
-                                checkedTrackColor = DarkGreen,
-                                checkedBorderColor = DarkGreen,
+                                checkedTrackColor = ForestGreen,
+                                checkedBorderColor = ForestGreen,
                                 uncheckedThumbColor = Color.White,
                                 uncheckedTrackColor = SwitchOffTrack,
                                 uncheckedBorderColor = SwitchOffTrack
@@ -271,7 +276,7 @@ fun ProfileScreen(
                         Icon(
                             imageVector = Icons.Outlined.Place,
                             contentDescription = null,
-                            tint = DarkGreen
+                            tint = ForestGreen
                         )
                     }
                 )
@@ -296,7 +301,7 @@ fun ProfileScreen(
                         Icon(
                             imageVector = Icons.Outlined.Settings,
                             contentDescription = null,
-                            tint = DarkGreen
+                            tint = ForestGreen
                         )
                     }
                 )
@@ -313,7 +318,7 @@ fun ProfileScreen(
             ) {
                 Text(
                     text = "Neighbourly Community Events",
-                    color = DarkGreen,
+                    color = ForestGreen,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -406,7 +411,7 @@ private fun SettingsRow(
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = title,
-                color = DarkGreen,
+                color = ForestGreen,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -443,7 +448,7 @@ private fun DetailsDialog(
                 text = "Your details",
                 fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.Bold,
-                color = DarkGreen
+                color = ForestGreen
             )
         },
         text = {
@@ -484,7 +489,7 @@ private fun DetailsDialog(
                     }
                 }
             ) {
-                Text("Save", color = Orange, fontWeight = FontWeight.Bold)
+                Text("Save", color = Terracotta, fontWeight = FontWeight.Bold)
             }
         },
         dismissButton = {
@@ -514,7 +519,7 @@ private fun LocationDialog(
                 text = "My location",
                 fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.Bold,
-                color = DarkGreen
+                color = ForestGreen
             )
         },
         text = {
@@ -534,11 +539,11 @@ private fun LocationDialog(
                     Icon(
                         imageVector = Icons.Outlined.MyLocation,
                         contentDescription = null,
-                        tint = Orange,
+                        tint = Terracotta,
                         modifier = Modifier.size(18.dp)
                     )
                     Spacer(Modifier.width(8.dp))
-                    Text("Use my current location", color = Orange, fontWeight = FontWeight.Bold)
+                    Text("Use my current location", color = Terracotta, fontWeight = FontWeight.Bold)
                 }
             }
         },
@@ -549,7 +554,7 @@ private fun LocationDialog(
                     if (input.isNotBlank()) onSave(input.trim())
                 }
             ) {
-                Text("Save", color = Orange, fontWeight = FontWeight.Bold)
+                Text("Save", color = Terracotta, fontWeight = FontWeight.Bold)
             }
         },
         dismissButton = {
@@ -562,10 +567,10 @@ private fun LocationDialog(
 
 @Composable
 private fun profileFieldColors() = OutlinedTextFieldDefaults.colors(
-    focusedTextColor = DarkGreen,
-    unfocusedTextColor = DarkGreen,
-    focusedBorderColor = DarkGreen,
+    focusedTextColor = ForestGreen,
+    unfocusedTextColor = ForestGreen,
+    focusedBorderColor = ForestGreen,
     unfocusedBorderColor = BorderGrey,
-    focusedLabelColor = DarkGreen,
-    cursorColor = Orange
+    focusedLabelColor = ForestGreen,
+    cursorColor = Terracotta
 )

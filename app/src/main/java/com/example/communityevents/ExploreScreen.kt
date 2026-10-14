@@ -66,7 +66,7 @@ import androidx.compose.ui.unit.sp
 val ExploreDarkGreen = Color(0xFF1C3D36)   // main headings, "All" chip
 val ExploreOrange    = Color(0xFFD9623B)   // "near you?", add button, badge
 val Rust      = Color(0xFFB0532F)   // small labels like "OUTDOORS"
-val Cream     = Color(0xFFFCFBF6)   // page background
+val ExploreCream     = Color(0xFFFCFBF6)   // page background
 val GreyText  = Color(0xFF6B7672)   // softer text (dates, places)
 val BorderGrey = Color(0xFFE3E3DE)  // thin lines around boxes
 val SunYellow = Color(0xFFF2C94C)   // "FREE EVENT" tag
@@ -102,7 +102,7 @@ fun ExploreScreen() {
     // Scaffold = a ready-made page layout. We give it a bottom bar,
     // and it makes sure our content doesn't hide behind that bar.
     Scaffold(
-        containerColor = Cream,
+        containerColor = ExploreCream,
         bottomBar = { BottomBar(savedCount = savedIds.size) }
     ) { innerPadding ->
 
@@ -541,44 +541,60 @@ fun BottomBar(
     onExploreClick: () -> Unit = {},
     onProfileClick: () -> Unit = {}
 ) {
-    Column(modifier = Modifier.background(Cream)) {
+    Column(modifier = Modifier.background(ExploreCream)) {
         HorizontalDivider(color = BorderGrey)
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .navigationBarsPadding()        // keeps it above the phone's own buttons
+                .navigationBarsPadding()
                 .padding(vertical = 10.dp),
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Explore (orange = the page we're on if selected)
+            // Explore
             NavItem(
                 icon = Icons.Outlined.Home,
                 label = "Explore",
-                color = if (selected == "Explore") Orange else GreyText,
+                color = if (selected == "Explore") ExploreOrange else GreyText,
                 onClick = onExploreClick
             )
-            // Explore (ExploreOrange = the page we're on)
-            NavItem(icon = Icons.Outlined.Home, label = "Explore", color = ExploreOrange)
 
-            // Saved, with a little number bubble showing how many hearts
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            // Saved
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 BadgedBox(
                     badge = {
                         if (savedCount > 0) {
-                            Badge(containerColor = ExploreOrange, contentColor = Color.White) {
+                            Badge(
+                                containerColor = ExploreOrange,
+                                contentColor = Color.White
+                            ) {
                                 Text("$savedCount")
                             }
                         }
                     }
                 ) {
-                    Icon(Icons.Outlined.FavoriteBorder, contentDescription = "Saved", tint = GreyText)
+                    Icon(
+                        Icons.Outlined.FavoriteBorder,
+                        contentDescription = "Saved",
+                        tint = GreyText
+                    )
                 }
-                Text("Saved", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = GreyText)
+
+                Text(
+                    "Saved",
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = GreyText
+                )
             }
 
-            // Big ExploreOrange "+" button
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            // Add event
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Box(
                     modifier = Modifier
                         .size(52.dp)
@@ -586,23 +602,33 @@ fun BottomBar(
                         .background(ExploreOrange),
                     contentAlignment = Alignment.Center
                 ) {
-                    Icon(Icons.Filled.Add, contentDescription = "Add event", tint = Color.White, modifier = Modifier.size(28.dp))
+                    Icon(
+                        Icons.Filled.Add,
+                        contentDescription = "Add event",
+                        tint = Color.White,
+                        modifier = Modifier.size(28.dp)
+                    )
                 }
-                Text("Add event", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = ExploreDarkGreen)
+
+                Text(
+                    "Add event",
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = ExploreDarkGreen
+                )
             }
 
             // Profile
             NavItem(
                 icon = Icons.Outlined.PersonOutline,
                 label = "Profile",
-                color = if (selected == "Profile") Orange else GreyText,
+                color = if (selected == "Profile") ExploreOrange else GreyText,
                 onClick = onProfileClick
             )
         }
     }
 }
 
-// One simple icon + label for the bottom bar
 @Composable
 fun NavItem(
     icon: ImageVector,
@@ -614,7 +640,17 @@ fun NavItem(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.clickable { onClick() }
     ) {
-        Icon(icon, contentDescription = label, tint = color)
-        Text(label, fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = color)
+        Icon(
+            imageVector = icon,
+            contentDescription = label,
+            tint = color
+        )
+
+        Text(
+            text = label,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.SemiBold,
+            color = color
+        )
     }
 }
